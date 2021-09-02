@@ -1,23 +1,92 @@
-import logo from './logo.svg';
+import React, { useState, useEffect} from 'react';
+import Loader from "react-loader-spinner";
 import './App.css';
+import NoticeTable from './components/NoticeTableComponent'
+import ClassTable from './components/ClassTableComponent'
+import axios from 'axios';
 
-function App() {
+var data = [
+  {id: 1, name: 'Gob', value: '2'},
+  {id: 2, name: 'Buster', value: '5'},
+  {id: 3, name: 'George Michael', value: '4'},
+  {id: 1, name: 'Gob', value: '2'},
+    {id: 2, name: 'Buster', value: '5'},
+    {id: 3, name: 'George Michael', value: '4'},
+    {id: 1, name: 'Gob', value: '2'},
+      {id: 2, name: 'Buster', value: '5'},
+      {id: 3, name: 'George Michael', value: '4'}
+];
+
+var noticeInfo;
+
+const getNoticeInfos = axios.get('http://localhost:8081/api/getnotice?category=&keyword=')
+  .then((Response)=>Response.data)
+  .catch((Error)=>{console.log(Error)})
+
+
+
+const getClassInfos = axios.get('http://localhost:8081/api/getclassinfos')
+  .then((Response)=>Response.data)
+  .catch((Error)=>{console.log(Error)})
+
+function Loading(){
+    return(
+       <Loader
+           type="Oval"
+           color="#3d66ba"
+           height={30}
+           width={30}
+           timeout={40000}
+       />
+    );
+}
+
+function App(){
+  const [notice, setNotice] = useState(null);
+  const [classes, setClasses] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(()=>{
+    getNoticeInfos.then(value=>{
+      setNotice(value);
+    })
+  },[])
+
+  useEffect(()=>{
+      setIsLoading(true);
+      getClassInfos.then(value=>{
+        console.log(value);
+        setClasses(value);
+        setIsLoading(false);
+      })
+    },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p className="header">숭실대학교 수업 도우미</p>
+        <div className="notice-section">
+            <p className="Table-header">공지사항</p>
+            <span className="category-wrapper">
+                <label className="label">검색할 카테고리</label>
+                <select name="category" className="form-select selectbox">
+                    <option value="">전체</option>
+                </select>
+            </span>
+            <span className="keyword-wrapper">
+                <label className="label">검색할 키워드</label>
+                <input type="text" />
+            </span>
+            <div className="col-md-12 demo-div heading-section">
+                <NoticeTable data={notice} className="notice-table"/>
+            </div>
+        </div>
+
+        <div className="class-section">
+            <p className="Table-header">수업목록</p>
+            <div className="col-md-12 demo-div heading-section">
+                {isLoading? <Loading/> : <ClassTable data={classes} className="class-table"/>}
+            </div>
+        </div>
     </div>
   );
 }

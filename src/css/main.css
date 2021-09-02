@@ -1,0 +1,45 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+body{
+    background-color:#30313d;
+    color:white;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.header{
+    margin-top:30px;
+    font-size: 60px;
+    margin-bottom: 40px;
+}
+
+.table{
+    color:white;
+}
+
+.notice-section .Table-header{
+    font-size: 30px;
+}
+
+.class-section .Table-header{
+    margin-top: 30px;
+    font-size: 30px;
+}
+
+label{
+    margin-right: 10px;
+}
+
+.selectbox{
+    width: 150px;
+    height:30px;
+}
+
+.category-wrapper,{
+    margin-bottom: 0px;
+    display:inline-block;
+}
+
+.keyword-wrapper{
+    margin-left:10px;
+    margin-bottom: 20px;
+    display:inline-block;
+}
