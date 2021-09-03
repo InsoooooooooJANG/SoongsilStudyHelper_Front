@@ -5,20 +5,6 @@ import NoticeTable from './components/NoticeTableComponent'
 import ClassTable from './components/ClassTableComponent'
 import axios from 'axios';
 
-var data = [
-  {id: 1, name: 'Gob', value: '2'},
-  {id: 2, name: 'Buster', value: '5'},
-  {id: 3, name: 'George Michael', value: '4'},
-  {id: 1, name: 'Gob', value: '2'},
-    {id: 2, name: 'Buster', value: '5'},
-    {id: 3, name: 'George Michael', value: '4'},
-    {id: 1, name: 'Gob', value: '2'},
-      {id: 2, name: 'Buster', value: '5'},
-      {id: 3, name: 'George Michael', value: '4'}
-];
-
-var noticeInfo;
-
 const getNoticeInfos = axios.get('http://localhost:8081/api/getnotice?category=&keyword=')
   .then((Response)=>Response.data)
   .catch((Error)=>{console.log(Error)})
@@ -55,10 +41,12 @@ function App(){
   useEffect(()=>{
       setIsLoading(true);
       getClassInfos.then(value=>{
-        console.log(value);
         setClasses(value);
         setIsLoading(false);
-      })
+      }).catch((Error) => {
+        console.log(Error);
+        setIsLoading(false);
+      });
     },[])
 
   return (
